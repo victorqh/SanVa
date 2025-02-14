@@ -98,7 +98,7 @@ p {
 }
 
 .heart:hover {
-    transform: scale(1.2);
+    transform: none;
 }
 
 .card {
@@ -170,6 +170,19 @@ p {
     background-color: #f56ba4;
 }
 
+#message-lvl1 {
+    display: none;
+    font-size: 24px;
+    color: #d04e8c;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+
 
 .game-container {
     display: flex;
@@ -184,7 +197,7 @@ p {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-.poetic-phrase {
+.cita {
     font-family: 'Dancing Script', cursive;
     font-size: 26px;
     font-weight: bold;
@@ -197,7 +210,7 @@ p {
     animation: fadeIn 3s ease-in-out;
 }
 
-.poetic-phrase::before, .poetic-phrase::after {
+.cita::before, .cita::after {
     content: '';
     position: absolute;
     width: 30px;
@@ -207,11 +220,11 @@ p {
     transform: translateY(-50%);
 }
 
-.poetic-phrase::before {
+.cita::before {
     left: -40px;
 }
 
-.poetic-phrase::after {
+.cita::after {
     right: -40px;
 }
 
@@ -241,7 +254,7 @@ p {
         font-size: 14px;
     }
 
-    .poetic-phrase {
+    .cita {
         font-size: 22px;
     }
 }
