@@ -150,6 +150,10 @@ p {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+#next-level-2 {
+    display: none;
+}
+
 #restart-button {
     margin-top: 20px;
     padding: 10px 20px;
@@ -181,6 +185,15 @@ p {
     text-align: center;
     font-family: 'Comic Sans MS', cursive, sans-serif;
     animation: fadeIn 2s ease-in-out;
+}
+
+#win-message {
+    display: none;
+    font-size: 24px;
+    color: #d04e8c;
+    line-height: 1.5;
+    text-align: center;
+    margin-top: 20px;
 }
 
 .game-container {
