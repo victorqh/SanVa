@@ -187,7 +187,7 @@ p {
     animation: fadeIn 2s ease-in-out;
 }
 
-#win-message {
+#message-lvl2 {
     display: none;
     font-size: 24px;
     color: #d04e8c;
