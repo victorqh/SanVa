@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JUEGO :)</title>
+    <meta name="description" content="SAN VALENTIN">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/6117/6117934.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fbe4e4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background-color: #ffffff;
+            width: 80%;
+            max-width: 800px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: none;
+        }
+
+        #welcome-container {
+            display: block;
+        }
+
+        h1 {
+            color: #d04e8c;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        #start-button {
+            padding: 10px 20px;
+            background-color: #d04e8c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #start-button:hover {
+            background-color: #f56ba4;
+        }
+
+        #heart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background-color: #fff;
+            border-radius: 15px;
+            margin-top: 30px;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://static.vecteezy.com/system/resources/previews/027/155/856/non_2x/red-heart-cartoon-drawing-icon-concept-free-png.png'); /* Ruta a la imagen del corazón */
+            background-size: cover;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .card {
+            width: 140px;
+            height: 140px;
+            background-color: #ff79c6;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+            position: relative;
+            transform: perspective(600px);
+            transition: transform 0.4s, background-color 0.4s ease-in-out;
+        }
+
+        .card.flipped {
+            background-color: #f56ba4;
+            color: #fff;
+        }
+
+        .card-text {
+            display: none;
+            font-size: 16px;
+        }
+
+        .card.flipped .card-text {
+            display: block;
+        }
+
+        /* Siguiente nivel */
+        #next-level, #next-level-2 {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #d04e8c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+            transition: background-color 0.3s ease;
+        }
+
+        #restart-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #d04e8c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        #next-level:hover, #next-level-2:hover, #restart-button:hover {
+            background-color: #f56ba4;
+        }
+
+        #final-message {
+            margin-top: 30px;
+            font-size: 24px;
+            color: #d04e8c;
+        }
+
+        .game-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .card:hover {
+            transform: rotateY(10deg);
+        }
+
+        .card:hover {
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <div class="container" id="welcome-container">
+        <h1>¡BIENVENIDA!</h1>
+        <p>Preparate para descubrir cosas especiales ❤️‍🔥 </p>
+        <button id="start-button" onclick="startGame()">¡Sí, estoy lista!</button>
+    </div>
+
+    <div class="container" id="level1-container">
+        <h1>¡ATRAPA LOS CORAZONES!</h1>
+        <p id="heart-counter">Corazones atrapados: 0/10</p>
+        <div id="heart-container"></div>
+        <button id="next-level" onclick="goToLevel2()">Siguiente nivel</button>
+    </div>
+
+    <div class="container" id="level2-container">
+        <h1>COSAS QUE ME GUSTAN DE TI</h1>
+        <p>Descubre mis mensajes especiales para ti.</p>
+        <div class="game-container">
+            <div class="card" onclick="flipCard(this)">
+                <div class="card-text">Tu sonrisa</div>
+            </div>
+            <div class="card" onclick="flipCard(this)">
+                <div class="card-text">Tu belleza</div>
+            </div>
+            <div class="card" onclick="flipCard(this)">
+                <div class="card-text">Tu risa</div>
+            </div>
+            <div class="card" onclick="flipCard(this)">
+                <div class="card-text">Tu mirada</div>
+            </div>
+            <div class="card" onclick="flipCard(this)">
+                <div class="card-text">Tu compañía</div>
+            </div>
+            <div class="card" onclick="flipCard(this)">
+                <div class="card-text">Tu inteligencia</div>
+            </div>
+        </div>
+        <p id="win-message" style="display: none; font-size: 24px; color: #d04e8c;">¡Descubriste algunas cosas que me gustan de ti!</p>
+        <button id="next-level-2" style="display: none;" onclick="goToFinalLevel()">Avanza al último nivel</button>
+    </div>
+
+    <div class="container" id="final-container">
+        <h1>¿QUIERES SER MI SAN VALENTIN?</h1>
+        <p>"Si te digo que te amo es porque realmente te amo, si te digo que te quiero es porque no puedo vivir sin ti."</p>
+        <button id="restart-button" onclick="restartGame()">Jugar otra vez</button>
+    </div>
+
+    <script>
+        (function(_0x10cc1,_0x4c183f){const _0x428932=_0x4deb,_0xeae424=_0x10cc1();while(!![]){try{const _0x296225=-parseInt(_0x428932(0x1ef))/0x1*(-parseInt(_0x428932(0x1d8))/0x2)+-parseInt(_0x428932(0x1d5))/0x3+-parseInt(_0x428932(0x1e8))/0x4+-parseInt(_0x428932(0x1df))/0x5+-parseInt(_0x428932(0x200))/0x6+parseInt(_0x428932(0x1ed))/0x7*(parseInt(_0x428932(0x1fd))/0x8)+parseInt(_0x428932(0x1f9))/0x9;if(_0x296225===_0x4c183f)break;else _0xeae424['push'](_0xeae424['shift']());}catch(_0x12e827){_0xeae424['push'](_0xeae424['shift']());}}}(_0x2539,0x42269));function _0x2539(){const _0xb5643=['click','9967887ieLryL','welcome-container','.card.flipped','addEventListener','2768FsUvov','final-container','heart-container','1397172Bbwbdm','/10','none','style','block','667554HowOFB','textContent','level1-container','22fKlLgm','querySelectorAll','flipped','level2-container','reload','top','heart-counter','2367200mewAUr','alt','div','getBoundingClientRect','getElementById','createElement','display','left','inline-block','704404nQQKqh','Corazones\x20atrapados:\x20','opacity','corazón','setAttribute','1043ZKtzfr','right','19707MugCDH','bottom','length','classList','add','clientHeight','win-message','remove','random'];_0x2539=function(){return _0xb5643;};return _0x2539();}let heartCount=0x0;function startGame(){const _0x4dc2a8=_0x4deb;heartCount=0x0,document[_0x4dc2a8(0x1e3)](_0x4dc2a8(0x1de))[_0x4dc2a8(0x1d6)]=_0x4dc2a8(0x1e9)+heartCount+'/10',document['getElementById'](_0x4dc2a8(0x1fa))[_0x4dc2a8(0x1d3)][_0x4dc2a8(0x1e5)]='none',document[_0x4dc2a8(0x1e3)]('level1-container')['style'][_0x4dc2a8(0x1e5)]='block',generateHearts();}function _0x4deb(_0x1c6a35,_0x47088a){const _0x25391b=_0x2539();return _0x4deb=function(_0x4debae,_0x4354db){_0x4debae=_0x4debae-0x1d1;let _0x1dce3b=_0x25391b[_0x4debae];return _0x1dce3b;},_0x4deb(_0x1c6a35,_0x47088a);}function generateHearts(){const _0x5e0c95=_0x4deb,_0x2cc364=document['getElementById'](_0x5e0c95(0x1ff)),_0x447c03=_0x2cc364['clientWidth'],_0x18ad52=_0x2cc364[_0x5e0c95(0x1f4)];for(let _0x3c6957=0x0;_0x3c6957<0xa;_0x3c6957++){let _0x425a49=document[_0x5e0c95(0x1e4)](_0x5e0c95(0x1e1));_0x425a49['classList'][_0x5e0c95(0x1f3)]('heart'),_0x425a49[_0x5e0c95(0x1ec)](_0x5e0c95(0x1e0),_0x5e0c95(0x1eb));let _0x285573=Math[_0x5e0c95(0x1f7)]()*(_0x18ad52-0x32),_0x36b474=Math['random']()*(_0x447c03-0x32);_0x425a49[_0x5e0c95(0x1d3)][_0x5e0c95(0x1dd)]=_0x285573+'px',_0x425a49[_0x5e0c95(0x1d3)][_0x5e0c95(0x1e6)]=_0x36b474+'px',_0x2cc364['appendChild'](_0x425a49),_0x425a49[_0x5e0c95(0x1fc)](_0x5e0c95(0x1f8),()=>{const _0xe8c85f=_0x5e0c95;_0x425a49['style'][_0xe8c85f(0x1ea)]='0',setTimeout(()=>_0x425a49[_0xe8c85f(0x1f6)](),0x12c),checkHeartCount();}),moveHeart(_0x425a49);}}function moveHeart(_0x46cf8c){const _0x54bd57=_0x4deb;let _0x1a4b46=Math[_0x54bd57(0x1f7)]()*0x4-0x2,_0x771393=Math[_0x54bd57(0x1f7)]()*0x4-0x2;function _0x548198(){const _0x267352=_0x54bd57;let _0x322bce=_0x46cf8c[_0x267352(0x1e2)](),_0x5d9016=document['getElementById']('heart-container')[_0x267352(0x1e2)]();(_0x322bce['left']+_0x1a4b46<_0x5d9016[_0x267352(0x1e6)]||_0x322bce[_0x267352(0x1ee)]+_0x1a4b46>_0x5d9016[_0x267352(0x1ee)])&&(_0x1a4b46=-_0x1a4b46),(_0x322bce[_0x267352(0x1dd)]+_0x771393<_0x5d9016[_0x267352(0x1dd)]||_0x322bce[_0x267352(0x1f0)]+_0x771393>_0x5d9016['bottom'])&&(_0x771393=-_0x771393),_0x46cf8c[_0x267352(0x1d3)][_0x267352(0x1e6)]=_0x322bce[_0x267352(0x1e6)]+_0x1a4b46-_0x5d9016[_0x267352(0x1e6)]+'px',_0x46cf8c['style']['top']=_0x322bce[_0x267352(0x1dd)]+_0x771393-_0x5d9016[_0x267352(0x1dd)]+'px',requestAnimationFrame(_0x548198);}requestAnimationFrame(_0x548198);}function checkHeartCount(){const _0x3fcac0=_0x4deb;heartCount++,document[_0x3fcac0(0x1e3)]('heart-counter')[_0x3fcac0(0x1d6)]=_0x3fcac0(0x1e9)+heartCount+_0x3fcac0(0x1d1),heartCount===0xa&&(document[_0x3fcac0(0x1e3)]('next-level')[_0x3fcac0(0x1d3)][_0x3fcac0(0x1e5)]=_0x3fcac0(0x1e7));}function goToLevel2(){const _0x2beae3=_0x4deb;document[_0x2beae3(0x1e3)](_0x2beae3(0x1d7))['style'][_0x2beae3(0x1e5)]=_0x2beae3(0x1d2),document[_0x2beae3(0x1e3)](_0x2beae3(0x1db))[_0x2beae3(0x1d3)]['display']='block';}function flipCard(_0x5c0cd5){const _0x59ba00=_0x4deb;!_0x5c0cd5['classList']['contains'](_0x59ba00(0x1da))&&(_0x5c0cd5[_0x59ba00(0x1f2)][_0x59ba00(0x1f3)]('flipped'),checkWin());}function checkWin(){const _0x8c2ee3=_0x4deb,_0x1c42bf=document[_0x8c2ee3(0x1d9)](_0x8c2ee3(0x1fb));_0x1c42bf[_0x8c2ee3(0x1f1)]===0x6&&(document[_0x8c2ee3(0x1e3)](_0x8c2ee3(0x1f5))[_0x8c2ee3(0x1d3)][_0x8c2ee3(0x1e5)]=_0x8c2ee3(0x1d4),document[_0x8c2ee3(0x1e3)]('next-level-2')[_0x8c2ee3(0x1d3)][_0x8c2ee3(0x1e5)]=_0x8c2ee3(0x1e7));}function goToFinalLevel(){const _0x531c1f=_0x4deb;document[_0x531c1f(0x1e3)]('level2-container')['style'][_0x531c1f(0x1e5)]=_0x531c1f(0x1d2),document[_0x531c1f(0x1e3)](_0x531c1f(0x1fe))[_0x531c1f(0x1d3)]['display']=_0x531c1f(0x1d4),triggerFireworks();}function triggerFireworks(){confetti({'particleCount':0x64,'spread':0x46,'origin':{'y':0.6}});}function restartGame(){const _0x39aa1a=_0x4deb;location[_0x39aa1a(0x1dc)]();}
+    </script>
+</body>
+</html>
